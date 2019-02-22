@@ -46,6 +46,14 @@ local PriceText = display.newText( "", 160, 300, native.systemFont, 20 )
 PriceText.id = "PriceText"
 PriceText:setFillColor( 1, 1, 1 )
 
+function round(val, decimal)
+	if(decimal) then
+		return math.floor((val * 10^decimal) + 0.5) / (10^decimal)
+	else
+		return math.floor(val + 0.5)
+	end
+end
+
 local function Calculator ( event )
 	-- body
 	local Diameter
@@ -55,7 +63,7 @@ local function Calculator ( event )
 	
 	Price = ((0.50 * Diameter) + 0.75 + 1 ) * 1.13 
 
-	PriceText.text = "The price is " .. Price
+	PriceText.text = "The price is " .. round(Price,2)
 	
 	return true
 end
