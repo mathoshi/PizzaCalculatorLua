@@ -42,6 +42,7 @@ Text:setFillColor( 1, 1, 1 )
 local DiameterTextField = native.newTextField( 160, 270, 200, 25 )
 DiameterTextField.id = "DiameterTextField"
 
+--There's nothing said in the string because it should seem invisible until needed, when the final price is calculated in function Calculator
 local PriceText = display.newText( "", 160, 300, native.systemFont, 20 )
 PriceText.id = "PriceText"
 PriceText:setFillColor( 1, 1, 1 )
