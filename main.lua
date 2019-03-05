@@ -16,35 +16,39 @@
 local Pizza = display.newImageRect( "assets/pizza.jpg", 1500, 1004 )
 Pizza.x = 100
 Pizza.y = 80
+
 local PizzaCalculator =
 {
 	text = "Pizza Calculator 9000",
 	x = 160,
 	y = 50,
-	width = 250,
-	font = native.systemFont, 
-	fontSize = 30,
+	width = 300,
+	font = "Times New Roman", 
+	fontSize = 40,
 	align = "center"
 }
 
 local Title = display.newText( PizzaCalculator )
 Title:setFillColor( 1, 1, 1 )
 
+local rct = display.newRect( 160, 400, 260, 200)
+rct:setFillColor( 32/255, 57/255, 96/255)
+
 local Button = display.newImageRect( "assets/button.png", 200, 64)
 Button.x = 160
 Button.y = 400
 Button.id = "Button"
 
-local Text = display.newText( "Size of Pizza in inches", 160, 230, native.systemFont, 20 )
+local Text = display.newText( "Size of Pizza in inches", 160, 230, "Times New Roman", 30 )
 Text.id = "Text"
 Text:setFillColor( 1, 1, 1 )
 
-local DiameterTextField = native.newTextField( 160, 270, 200, 25 )
+local DiameterTextField = native.newTextField( 160, 270, 200, 30 )
 DiameterTextField.id = "DiameterTextField"
 
---There's nothing said in the string because it should seem invisible until needed, when the final price is calculated in function Calculator
-local PriceText = display.newText( "", 160, 300, native.systemFont, 20 )
+local PriceText = display.newText( "", 160, 310, "Times New Roman", 30 )
 PriceText.id = "PriceText"
+PriceText.width = 10
 PriceText:setFillColor( 1, 1, 1 )
 
 function round(val, decimal)
@@ -62,11 +66,20 @@ local function Calculator ( event )
 
 	Diameter = DiameterTextField.text
 	
-	Price = ((0.50 * Diameter) + 0.75 + 1 ) * 1.13 
-
-	PriceText.text = "The price is " .. round(Price,2)
 	
+
+		if (Diameter == nil or Diameter == '') then
+		PriceText.text = "You haven't inputed anything" 
+		
+		else
+		Price = ((0.50 * Diameter) + 0.75 + 1 ) * 1.13 
+		PriceText.text = "The price is $" .. round(Price,2)
+
+	end
+
 	return true
 end
 
 Button:addEventListener( "touch", Calculator )
+
+
