@@ -3,150 +3,81 @@
 -- main.lua
 --
 -- Created by: Matsuru Hoshi
--- Created on: Mar 23, 2019
+-- Created on Feb 21 2019
 --
--- This file will calculate the price of a pizza with multiple sizes and topping options.
+-- This file will calculate price of a pizza
 -----------------------------------------------------------------------------------------
 
---local background = display.setdefault( "background" )
+-- 
 
--- Buttons to click to choose large or extra-large
 
-local largeButton = display.newRect( 100, 60, 60, 50)
-largeButton:setFillColor( 5/255, 100/255, 10/255)
+--display.setDefault( "background ")
 
-local extralargeButton = display.newRect( 230, 60, 60, 50)
-extralargeButton:setFillColor( 180/255, 32/255, 188/ 255)
+local Pizza = display.newImageRect( "assets/pizza.jpg", 1500, 1004 )
+Pizza.x = 100
+Pizza.y = 80
 
--- Buttons to click to choose the # of toppigns
+local PizzaCalculator =
+{
+	text = "Pizza Calculator 9000",
+	x = 160,
+	y = 50,
+	width = 300,
+	font = "Times New Roman", 
+	fontSize = 40,
+	align = "center"
+}
 
-local toppingOneButton = display.newRect( 100, 200, 30, 30)
-toppingOneButton:setFillColor( 0.1, 0.5, 0.8)
+local Title = display.newText( PizzaCalculator )
+Title:setFillColor( 1, 1, 1 )
 
-local toppingTwoButton = display.newRect( 230, 200, 30, 30)
-toppingTwoButton:setFillColor( 210/255, 214/255, 14/255)
+local rct = display.newRect( 160, 400, 260, 200)
+rct:setFillColor( 32/255, 57/255, 96/255)
 
-local toppingThreeButton = display.newRect( 100, 280, 30, 30)
-toppingThreeButton:setFillColor( 0.3, 0.4, 0.3)
+local Button = display.newImageRect( "assets/button.png", 200, 64)
+Button.x = 160
+Button.y = 400
+Button.id = "Button"
 
-local toppingFourButton = display.newRect( 230, 280, 30, 30)
-toppingFourButton:setFillColor( 198/255, 46/255, 43 /255)
+local Text = display.newText( "Size of Pizza in inches", 160, 230, "Times New Roman", 30 )
+Text.id = "Text"
+Text:setFillColor( 1, 1, 1 )
 
--- Calculate Button
+local DiameterTextField = native.newTextField( 160, 270, 200, 30 )
+DiameterTextField.id = "DiameterTextField"
 
-local calculateButton = display.newRect( 160, 400, 80, 50)
+local PriceText = display.newText( "", 160, 310, "Times New Roman", 30 )
+PriceText.id = "PriceText"
+PriceText.width = 10
+PriceText:setFillColor( 1, 1, 1 )
 
-local size = ""
-local toppings = 0
---------------------------------------------------------------
--- Will assign values to the variable if button is clicked
---------------------------------------------------------------
+function round(val, decimal)
+	if(decimal) then
+		return math.floor((val * 10^decimal) + 0.5) / (10^decimal)
+	else
+		return math.floor(val + 0.5)
+	end
+end
 
--- Large Button 
+local function Calculator ( event )
+	-- body
+	local Diameter
+	local Price
 
-local largeTouch function Assign1( event )
+	Diameter = DiameterTextField.text
 	
-	size = "large"
-
-	return true
-end
-
--- Extra-large Button
-
-local extralargeTouch function Assign2( event )
-
-	size = "extralarge"
 	
-	return true
 
-end
-
--- First Topping Button
-
-local toppingOneTouch function Assign3( event )
-
-	toppings = 1 
-
-	return true
-
-end
-
--- Second Topping Button
-
-local toppingTwoTouch function Assign4( event )
-
-	toppings = 2
-
-	return true
-
-end
-
-
--- Third Toppign Button
-
-local toppingThreeTouch function Assign5( event )
-
-	toppings = 3
-
-	return true
-
-end
-
-
--- Fourth Topping Button 
-
-local toppingFourTouch function Assign6( event )
-
-	toppings = 4
-
-	return true
-
-end
-
-
--- Calculate function for every possible selection
-
-local Calculations function Calculate( event )
-
-	subtotal = 0
-
-	if (size == "large") then
-		subtotal = 6
-		elseif (size == "extralarge") then
-					subtotal = 10
-
-
-					else
-						print ("pick a size!")
+		if (Diameter == nil or Diameter == '') then
+		PriceText.text = "You haven't inputed anything" 
+		
+		else
+		Price = ((0.50 * Diameter) + 0.75 + 1 ) * 1.13 
+		PriceText.text = "The price is $" .. round(Price,2)
 
 	end
 
-
-	if (toppings == 1) then
-		subtotal = subtotal + 1
-		elseif (toppings == 1.75) then
-			subtotal = subtotal + 1.75
-		elseif (toppings == 2.50) then
-			subtotal =  subtotal + 2.5
-		elseif (toppings == 3.35) then
-			subtotal = subtotal + 3.35
-
-			else 
-				print ("pick a topping!") 
-	end
-
-		print ("Size selected is: ".. size)
-		print ("Toppings selected is: ".. toppings)
-		print ("The subtotal is: ".. subtotal)
-
+	return true
 end
 
-
-largeButton:addEventListener( "touch", Assign1)
-extralargeButton:addEventListener( "touch", Assign2)
-toppingOneButton:addEventListener( "touch", Assign3)
-toppingTwoButton:addEventListener( "touch", Assign4)
-toppingThreeButton:addEventListener( "touch", Assign5)
-toppingFourButton:addEventListener( "touch", Assign6)
-calculateButton:addEventListener( "touch", Calculate)
-
+Button:addEventListener( "touch", Calculator )
